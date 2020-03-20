@@ -41,7 +41,7 @@ class CommentViewController: UIViewController {
         commentsTable.register(UINib(nibName: "IssueCell", bundle: nil), forCellReuseIdentifier: "IssueCell")
         commentsTable.rowHeight = UITableViewAutomaticDimension
     }
-
+    
     private func callCommentApi() {
         guard let commentUrl = commentUrl else {return}
         guard let url = URL(string: commentUrl) else {return}
@@ -63,7 +63,7 @@ class CommentViewController: UIViewController {
                 }
                 }.resume()
         }
-     }
+    }
     
     private func loadImages(_ imageUrl: String)-> UIImage {
         if let imageFromCache = imageCache.object(forKey: imageUrl as AnyObject) as? UIImage {
