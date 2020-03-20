@@ -30,6 +30,7 @@ class CommentViewController: UIViewController {
     //MARK: VIEW LIFECYCLE
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationItem.title = "Comments"
         setupTable()
         callCommentApi()
     }
@@ -65,6 +66,18 @@ class CommentViewController: UIViewController {
         }
     }
     
+    private func dateFormatter(_ dateString: String) -> String {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssXXXXX"
+        if let date = formatter.date(from: dateString) {
+            formatter.dateFormat = "MMM dd YYYY hh:mm a"
+            let string = formatter.string(from: date)
+            return string
+        }
+        return ""
+    }
+    
     private func loadImages(_ imageUrl: String)-> UIImage {
         if let imageFromCache = imageCache.object(forKey: imageUrl as AnyObject) as? UIImage {
             return imageFromCache
@@ -91,8 +104,9 @@ extension CommentViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! IssueCell
         if let commentData = commentArr {
-            cell.dateLbl.text = commentData[indexPath.row].user.login
-            cell.issueLbl.text = commentData[indexPath.row].body
+            cell.updatedAt.text = dateFormatter(commentData[indexPath.row].updated_at)
+            cell.titleLbl.text = commentData[indexPath.row].user.login
+            cell.detailLbl.text = commentData[indexPath.row].body
             DispatchQueue.global(qos: .background).async {
                 let image = self.loadImages(commentData[indexPath.row].user.avatar_url)
                 DispatchQueue.main.async {

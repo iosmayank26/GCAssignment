@@ -10,8 +10,9 @@ import UIKit
 
 class IssueCell: UITableViewCell {
 
-    @IBOutlet var dateLbl: UILabel!
-    @IBOutlet var issueLbl: UILabel!
+    @IBOutlet var updatedAt: UILabel!
+    @IBOutlet var titleLbl: UILabel!
+    @IBOutlet var detailLbl: UILabel!
     @IBOutlet var avatarView: UIImageView!
     
     override func awakeFromNib() {

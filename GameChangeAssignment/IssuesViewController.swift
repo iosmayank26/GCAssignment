@@ -126,8 +126,9 @@ extension IssuesViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! IssueCell
         if let issueData = issueArr {
-            cell.dateLbl.text = dateFormatter(issueData[indexPath.row].updated_at)
-            cell.issueLbl.text = String(issueData[indexPath.row].body.prefix(140))
+            cell.updatedAt.text = dateFormatter(issueData[indexPath.row].updated_at)
+            cell.titleLbl.text = issueData[indexPath.row].title
+            cell.detailLbl.text = String(issueData[indexPath.row].body.prefix(140))
             DispatchQueue.global(qos: .background).async {
                 let image = self.loadImages(issueData[indexPath.row].user.avatar_url)
                 DispatchQueue.main.async {
