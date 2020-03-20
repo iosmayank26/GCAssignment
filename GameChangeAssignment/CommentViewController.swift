@@ -18,12 +18,16 @@ struct Comment: Decodable {
 
 class CommentViewController: UIViewController {
     
+    //MARK: OUTLETS
     @IBOutlet var commentsTable: UITableView!
+    
+    //MARK: PROPERTIES
     let cellIdentifier = "IssueCell"
     var commentUrl: String?
     var commentArr: [Comment]? = nil
     var commentCount = Int()
     
+    //MARK: VIEW LIFECYCLE
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTable()
@@ -77,6 +81,7 @@ class CommentViewController: UIViewController {
     }
 }
 
+//MARK: UITABLEVIEW DELEGATE AND DATASOURCE METHODS
 extension CommentViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

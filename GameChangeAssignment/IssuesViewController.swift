@@ -30,19 +30,21 @@ let imageCache = NSCache<AnyObject, AnyObject>()
 
 class IssuesViewController: UIViewController {
     
+    //MARK: OUTLETS
     @IBOutlet var issuesTable: UITableView!
     
+    //MARK: PROPERTIES
     let cellIdentifier = "IssueCell"
     let issueUrl = "https://api.github.com/repos/firebase/firebase-ios-sdk/issues"
     var issueArr: [Issues]? = nil
     var issuesCount = Int()
     
+    //MARK: VIEW LIFECYCLE
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTable()
         callIssuesApi()
     }
-    
     
     private func setupTable() {
         issuesTable.delegate = self
@@ -77,6 +79,7 @@ class IssuesViewController: UIViewController {
     }
     
     private func loadImages(_ imageUrl: String)-> UIImage {
+        //MARK: IF IMAGE AVAILABLE IN CACHE
         if let imageFromCache = imageCache.object(forKey: imageUrl as AnyObject) as? UIImage {
             return imageFromCache
         }
@@ -113,7 +116,7 @@ class IssuesViewController: UIViewController {
     
 }
 
-
+//MARK: UITABLEVIEW DELEGATE AND DATASOURCE METHODS
 extension IssuesViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
