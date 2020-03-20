@@ -57,18 +57,18 @@ class IssuesViewController: UIViewController {
     func callIssuesApi() {
         guard let url = URL(string: issueUrl) else {return}
         DispatchQueue.global(qos: .userInteractive).async {
-            URLSession.shared.dataTask(with: url) { (data, response, err) in
+            URLSession.shared.dataTask(with: url) { [weak self] (data, response, err) in
                 guard let data = data else{return}
                 let dataAsString = String(data: data, encoding:.utf8)
                 
                 do {
                     let course = try JSONDecoder().decode([Issues].self, from: data)
-                    course.forEach{ print($0.comments_url) }
-                    self.issueArr = course
-                    self.issueArr?.sort(by: {$0.updated_at > $1.updated_at})
-                    self.issuesCount = course.count
+            
+                    self?.issueArr = course
+                    self?.issueArr?.sort(by: {$0.updated_at > $1.updated_at})
+                    self?.issuesCount = course.count
                     DispatchQueue.main.async {
-                        self.issuesTable.reloadData()
+                        self?.issuesTable.reloadData()
                     }
                     
                 } catch let jsonErr {

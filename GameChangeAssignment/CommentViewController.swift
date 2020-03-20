@@ -47,17 +47,17 @@ class CommentViewController: UIViewController {
         guard let commentUrl = commentUrl else {return}
         guard let url = URL(string: commentUrl) else {return}
         DispatchQueue.global(qos: .userInteractive).async {
-            URLSession.shared.dataTask(with: url) { (data, response, err) in
+            URLSession.shared.dataTask(with: url) { [weak self] (data, response, err) in
                 guard let data = data else{return}
                 let dataAsString = String(data: data, encoding:.utf8)
                 
                 do {
                     let course = try JSONDecoder().decode([Comment].self, from: data)
                     print(course)
-                    self.commentArr = course
-                    self.commentCount = course.count
+                    self?.commentArr = course
+                    self?.commentCount = course.count
                     DispatchQueue.main.async {
-                        self.commentsTable.reloadData()
+                        self?.commentsTable.reloadData()
                     }
                 } catch let jsonErr {
                     print("Json err is",jsonErr)
